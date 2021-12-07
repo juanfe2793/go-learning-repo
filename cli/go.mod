@@ -1,3 +1,3 @@
-module example.com/m
+module learning/gocli
 
 go 1.17

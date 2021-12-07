@@ -1,2 +1,10 @@
 # General ignores
 *.log
+
+# Avoid pushed executables
+
+gocli
+gocli.*
+
+hello-world-app
+hello-world-app.*
