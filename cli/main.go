@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -10,7 +11,13 @@ import (
 
 func main() {
 
-	file, err := os.Open("system.log")
+	// Command line parameters definition. The variable is setup as a parameter if you use flag package.
+
+	path := flag.String("path", "system.log", "This is the path of the log file you want to verify")
+	level := flag.String("level", "com.apple.asl", "The log level you want to filter")
+	flag.Parse() //This will populate the parameters
+
+	file, err := os.Open(*path)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -24,7 +31,7 @@ func main() {
 		if err != nil {
 			break
 		}
-		if strings.Contains(str, "com.apple.asl") {
+		if strings.Contains(str, *level) {
 			fmt.Println(str)
 		}
 	}
