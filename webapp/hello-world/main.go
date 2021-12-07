@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 )
@@ -8,7 +9,28 @@ import (
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
-		w.Write([]byte("Hello World"))
+		names := r.URL.Query()["name"]
+		var name string
+
+		if names == nil {
+
+			w.Write([]byte("Please add a name in your query. ie: /?name=myname"))
+
+		} else {
+
+			if len(names) == 1 {
+				name = names[0]
+			} else {
+
+				w.Write([]byte("We can handle only one name, for now"))
+			}
+
+			m := map[string]string{"name": name}
+			enc := json.NewEncoder(w)
+
+			w.Write([]byte("This is the Json encoded:  "))
+			enc.Encode(m)
+		}
 
 	})
 
